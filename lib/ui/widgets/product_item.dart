@@ -32,10 +32,6 @@ class ProductItem extends StatelessWidget {
           );
         },
         child: GridTile(
-          child: Image.network(
-            product.imageUrl,
-            fit: BoxFit.cover,
-          ),
           footer: GridTileBar(
             backgroundColor: Colors.black87,
             leading: Consumer<Product>(
@@ -56,12 +52,32 @@ class ProductItem extends StatelessWidget {
             trailing: IconButton(
               onPressed: () {
                 cart.addItem(product.id, product.price, product.title);
+                final snackBar = SnackBar(
+                  content: const Text('Added item to cart!',
+                      style: TextStyle(color: Colors.indigoAccent)),
+                  duration: const Duration(
+                    seconds: 2,
+                  ),
+                  backgroundColor: Colors.grey,
+                  action: SnackBarAction(
+                    label: 'Undo',
+                    onPressed: () {
+                      cart.removeSingleItem(product.id);
+                    },
+                  ),
+                );
+                ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.shopping_cart,
               ),
               color: Theme.of(context).accentColor,
             ),
+          ),
+          child: Image.network(
+            product.imageUrl,
+            fit: BoxFit.cover,
           ),
         ),
       ),

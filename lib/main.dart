@@ -3,7 +3,9 @@ import 'package:meals_app/providers/cart.dart';
 import 'package:meals_app/providers/orders.dart';
 import 'package:meals_app/providers/products_provider.dart';
 import 'package:meals_app/ui/screens/cart_screen.dart';
+import 'package:meals_app/ui/screens/edit_product_screen.dart';
 import 'package:meals_app/ui/screens/order_screen.dart';
+import 'package:meals_app/ui/screens/user_product_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'package:meals_app/ui/screens/product_detail_screen.dart';
@@ -53,6 +55,8 @@ class MyApp extends StatelessWidget {
           ProductDetailScreen.routeName: (ctx) => const ProductDetailScreen(),
           CartScreen.routeName: (ctx) => const CartScreen(),
           OrderScreen.routeName: (ctx) => const OrderScreen(),
+          UserProductScreen.routeName: (ctx) => const UserProductScreen(),
+          EditProductScreen.routeName: (ctx) => EditProductScreen(),
         },
       ),
     );
