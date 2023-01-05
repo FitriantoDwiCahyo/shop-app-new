@@ -23,7 +23,25 @@ class ProductOverviewScreen extends StatefulWidget {
 }
 
 class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
-  var _showFavoritesOnly = false;
+  bool _showFavoritesOnly = false;
+  bool _isInit = true;
+  bool _isLoading = false;
+
+  @override
+  void didChangeDependencies() {
+    if (_isInit) {
+      setState(() {
+        _isLoading = true;
+      });
+      Provider.of<ProductsProvider>(context).fetchAndSetProducts().then((_) {
+        setState(() {
+          _isLoading = false;
+        });
+      });
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,12 +65,12 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
             ),
             itemBuilder: (_) => const [
               PopupMenuItem(
-                child: Text('Only Favorites'),
                 value: FilterOptions.favorites,
+                child: Text('Only Favorites'),
               ),
               PopupMenuItem(
-                child: Text('Show All'),
                 value: FilterOptions.all,
+                child: Text('Show All'),
               ),
             ],
           ),
@@ -70,8 +88,8 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
           ),
         ],
       ),
-      drawer: AppDrawer(),
-      body: ProductGrid(showFavorites: _showFavoritesOnly),
+      drawer: const AppDrawer(),
+      body: _isLoading ? const Center(child: CircularProgressIndicator(),) : ProductGrid(showFavorites: _showFavoritesOnly),
     );
   }
 }
