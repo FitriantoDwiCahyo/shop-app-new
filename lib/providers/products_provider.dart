@@ -74,7 +74,10 @@ class ProductsProvider with ChangeNotifier {
         'https://shop-app-783ed-default-rtdb.firebaseio.com/products.json');
     try {
       final response = await http.get(url);
-      final Map<String, dynamic> extractedData = json.decode(response.body);
+      final Map<String, dynamic>? extractedData = json.decode(response.body);
+      if (extractedData == null) {
+        return;
+      }
       final List<Product> loadedProduct = [];
       extractedData.forEach((prodId, prodData) {
         loadedProduct.add(Product(
